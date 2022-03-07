@@ -62,7 +62,7 @@ jobs:
       - run: 
           name: Folder
           command: |
-            cd /tmp 
+            cat /artifacts/art-2 
             ls -la
             cat art-1
       - run: 
