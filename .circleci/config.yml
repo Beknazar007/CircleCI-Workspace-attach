@@ -38,8 +38,8 @@ jobs:
           else
             echo "Nope!"; exit 1
           fi
-build:
-    working_directory: /tmp
+  build:
+    executor: my-executor
     steps:
       - run:
           name: Creating Dummy Artifacts
