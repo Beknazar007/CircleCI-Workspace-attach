@@ -1,17 +1,27 @@
 version: 2.1
 
 executors:
-  my-executor:
+  executor1:
+
     docker:
       - image: buildpack-deps:jessie
         auth:
           username: mydockerhub-user
           password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
     working_directory: /tmp
+  executor2:
+
+    docker:
+      - image: buildpack-deps:latest
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+    working_directory: /
 
 jobs:
   flow:
-    executor: my-executor
+    executor: executor2
+
     steps:
       - run: mkdir -p workspace
       - run: echo "Hello, world!" > workspace/echo-output
@@ -26,7 +36,8 @@ jobs:
             - echo-output
 
   downstream:
-    executor: my-executor
+    executor: executor1
+
     steps:
       - attach_workspace:
           # Must be absolute path or relative path from working_directory
@@ -39,7 +50,8 @@ jobs:
             echo "Nope!"; exit 1
           fi
   build:
-    executor: my-executor
+    executor: executor1
+
     steps:
       - run: 
           name: Folder
